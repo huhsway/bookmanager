@@ -20,13 +20,25 @@ class UserRepositoryTest {
 
     @Test
     void crud() {
-        User user = new User();
-        user.setEmail("slow");
+        userRepository.save(new User("david", "david@fastcampus.com"));
 
-        ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("email", contains());
-        Example<User> example = Example.of(user, matcher);
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setEmail("martin-updated@fastcampus.com");
 
-        userRepository.findAll(example).forEach(System.out::println);
+        userRepository.save(user);
+    }
+
+    @Test
+    void select() {
+        System.out.println(userRepository.findByName("denis"));
+
+        System.out.println("findByEmail : " + userRepository.findByEmail("martin@fastcampus.com"));
+        System.out.println("getByEmail : " + userRepository.getByEmail("martin@fastcampus.com"));
+        System.out.println("readByEmail : " + userRepository.readByEmail("martin@fastcampus.com"));
+        System.out.println("queryByEmail : " + userRepository.queryByEmail("martin@fastcampus.com"));
+        System.out.println("searchByEmail : " + userRepository.searchByEmail("martin@fastcampus.com"));
+        System.out.println("streamByEmail : " + userRepository.streamByEmail("martin@fastcampus.com"));
+        System.out.println("findUserByEmail : " + userRepository.findUserByEmail("martin@fastcampus.com"));
 
     }
 }
